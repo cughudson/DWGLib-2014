@@ -18,6 +18,7 @@ namespace DWGLib.Control
         /// 
         /// </summary>
         /// <param name="TagStr">Tag string bingding to ClassifyBtn</param>
+        readonly int MAXSIZE = 20;
         public ClassifyBtn(string Name,string Path)
         {
             InitializeComponent();
@@ -63,7 +64,6 @@ namespace DWGLib.Control
                 LibaryDialog ParentForm = this.FindForm() as LibaryDialog;
                 if (ParentForm == null) return;
                 this.CreateTabCollection(PathStr, ParentForm.TabControl);
-                //获取当前的tab
                 TabPage page = ParentForm.TabControl.SelectedTab; 
                 bool IsSuccess = this.CreateDWGThumnailCollection(ref page);
                 //这个是在知道的情况下才可以这样做因为Controls[0]是FlowPanelControl
@@ -92,9 +92,9 @@ namespace DWGLib.Control
             List<string> SubPaths = Directory.GetDirectories(Path).ToList();
             //if：如果下面还有子文件夹
             //else：如果下面只有文件，不存在子文件夹
-            if(SubPaths.Count > 20)
+            if(SubPaths.Count > MAXSIZE)
             {
-                MessageBox.Show("图库的子文件夹不能超过20个,如果超过20个，则只加载前20个");
+                MessageBox.Show(string.Format("图库的子文件夹不能超过{0}个",MAXSIZE));
                 SubPaths = SubPaths.Take(20).ToList();
             }
             if(SubPaths.Count != 0)

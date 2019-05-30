@@ -17,29 +17,19 @@ namespace DWGLib.init
         string PluginPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
         string RootPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\";
         string AppName = "CSCECDECLib";
-        string DEFAULTBLOCKPATH = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\library\StdBlock";
-        string DEFAULTSYSPATH = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\library\StdSys";
+       readonly  string DEFAULTBLOCKPATH = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\library\StdBlock";
+        readonly string DEFAULTSYSPATH = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\library\StdSys";
+        readonly string ToolbarPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\gui.cuix";
+
         Editor ed = AcadApp.DocumentManager.MdiActiveDocument.Editor;
-        string ToolbarPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\gui.cuix";
-        System.Windows.Forms.Timer Tim = new Timer();
-        int Signal = 1;
         string EncryString = Environment.MachineName + "cscecdec";
+
         void IExtensionApplication.Initialize()
         {
             // bool IsActive = GetIsActiveValue(Url);
             InilizationSetting();
             CreateToolbar();
             ed.WriteMessage("\n中建深装幕墙图库插件加载成功");
-            /*
-            string Code = GetMd5Hash(MD5.Create(), EncryString);
-            if(Properties.Settings.Default.verifycode != Code)
-            {
-                RegisterSoftware();
-            }else
-            {
-                CreateToolbar();
-                ed.WriteMessage("\n中建深装幕墙图库插件加载成功");
-            }*/
         }
         /// <summary>
         /// 设置系统运行的时候所必须的参数
@@ -63,8 +53,6 @@ namespace DWGLib.init
         }
         void InilizationSetting()
         {
-           //bool IsActive = GetIsActiveValue(Url);
-           // Properties.Settings.Default.verifycode = IsActive;
             Properties.Settings.Default.StdBlockPath = DEFAULTBLOCKPATH;
             Properties.Settings.Default.StdSysPath = DEFAULTSYSPATH;
             Properties.Settings.Default.Save();
@@ -80,52 +68,12 @@ namespace DWGLib.init
             return sBuilder.ToString();
 
         }
-        /// <summary>
-        /// 获取远程主机上的激活码
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        private bool GetIsActiveValue(string url)
-        {
-            try
-            {
-                WebRequest Request = WebRequest.Create(url);
-                WebResponse Resp = Request.GetResponse();
-                Stream s = Resp.GetResponseStream();
-                StreamReader sr = new StreamReader(s);
-
-                string ActiveStr = sr.ReadToEnd();
-                try
-                {
-                    return Convert.ToBoolean(ActiveStr);
-                }catch
-                {
-                    return true;
-                }
-
-            }catch(System.Exception ex)
-            {
-                AcadApp.ShowAlertDialog(ex.Message);
-                return false;
-            }
-        }
-        private void DocumentManager_DocumentLockModeChanged(object sender, Autodesk.AutoCAD.ApplicationServices.DocumentLockModeChangedEventArgs e)
+      private void DocumentManager_DocumentLockModeChanged(object sender, Autodesk.AutoCAD.ApplicationServices.DocumentLockModeChangedEventArgs e)
         {
            if(e.GlobalCommandName.ToUpper() == "SAVE" || e.GlobalCommandName.ToUpper() == "SAVEAS")
             {
                  //Autodesk.AutoCAD.ApplicationServices.Application.Quit();
             }
-        }
-
-        private void Tim_Tick(object sender, EventArgs e)
-        {
-            if(Signal % 1836 == 0)
-            {
-                Tim.Stop();
-                Autodesk.AutoCAD.ApplicationServices.Application.Quit();
-            }
-            Signal++;
-            
         }
         [CommandMethod("regplugin")]
         public void Register()

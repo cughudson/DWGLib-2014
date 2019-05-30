@@ -34,6 +34,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.OKBtn = new System.Windows.Forms.Button();
@@ -47,7 +48,6 @@
             this.BlockPathBtn = new System.Windows.Forms.Button();
             this.FolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.label1 = new System.Windows.Forms.Label();
             this.libPathSetting.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -127,6 +127,15 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(276, 33);
             this.panel6.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(221, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "鼠标悬停在路径上面可以看到完整的路径";
             // 
             // panel7
             // 
@@ -235,15 +244,6 @@
             this.BlockPathBtn.UseVisualStyleBackColor = true;
             this.BlockPathBtn.Click += new System.EventHandler(this.BlockPathBtn_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(221, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "鼠标悬停在路径上面可以看到完整的路径";
-            // 
             // SetttingDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -256,7 +256,7 @@
             this.MinimumSize = new System.Drawing.Size(540, 240);
             this.Name = "SetttingDlg";
             this.Padding = new System.Windows.Forms.Padding(10);
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "设置";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SetttingDlg_FormClosing);
             this.libPathSetting.ResumeLayout(false);

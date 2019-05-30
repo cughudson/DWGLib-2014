@@ -19,7 +19,7 @@ namespace DWGLib.Control
 {
     public partial class DwgThumnail : UserControl,IDisposable,IComparable
     {
-        ///
+        /// <summary>
         public string FilePath = "";
        /// <summary>
        /// 
@@ -190,23 +190,22 @@ namespace DWGLib.Control
                     Document _Doc = AcadApp.DocumentManager.Open(this.FilePath,false);
                 }else
                 {
-                    AcadApp.ShowAlertDialog("文件不存在");
+                    AcadApp.ShowAlertDialog(string.Format("文件{0}不存在",this.FilePath));
                 }
                 Dialog.Close();
+                Dialog.Dispose();
                 return;
             }
             if (Dialog != null)
             {
                 ObjectId BlockId = default(ObjectId);
                 Dialog.Hide();
-                /*
-                Database SourceDB = new Database();
-                ErrorStatus Stats = this.GetInsertDwgFile(ref SourceDB);
-                */
+
                 Database TargetDB = HostApplicationServices.WorkingDatabase;
                 DocumentLock DocLock = Doc.LockDocument();
                 string BlockName = Path.GetFileNameWithoutExtension(this.FilePath);
                 WBlockBetweenDataBase(BlockName);
+
                 using (Transaction Tr = TargetDB.TransactionManager.StartTransaction())
                 {
                    
@@ -215,14 +214,16 @@ namespace DWGLib.Control
                     try
                     {
                         BlockId = Btr[BlockName];
-                    }catch
+                    }catch(Autodesk.AutoCAD.Runtime.Exception ex)
                     {
-                        AcadApp.ShowAlertDialog("插入图块失败");
+                        //这样可以吗;
+                        Dialog.Show();
+                        AcadApp.ShowAlertDialog(ex.Message);
                         DocLock.Dispose();
                         TargetDB.Dispose();
                         return;
                     }
-                   
+                    #region
                     ////<summary>
                     /*****
                     if (Stats == ErrorStatus.OK)
@@ -263,6 +264,7 @@ namespace DWGLib.Control
                         return;
                     }
                     ****/
+                    #endregion
                     BlockReference Block = new BlockReference(new Autodesk.AutoCAD.Geometry.Point3d(0,0,0),BlockId);
                     Block.Highlight();
                     BlockJig _BlockJig = new BlockJig(Block);

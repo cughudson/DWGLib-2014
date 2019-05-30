@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace DWGLib.Dialog
 {
@@ -19,6 +20,9 @@ namespace DWGLib.Dialog
         public ClassifyBtn CurrentClickBtn = null;
         public LibType Type = 0;
         private string _RootPath = "";
+        readonly int MAXSIZE = 20;
+        private string CurrentTab = "";
+        
         public LibaryDialog(string RootPath,string title, LibType _Type)
         {
             InitializeComponent();
@@ -31,15 +35,37 @@ namespace DWGLib.Dialog
             this.Text = title;
            
         }
+        private void AddFileWatcher(string Path)
+        {
+            using(FileSystemWatcher Wather = new FileSystemWatcher(Path, "*.dwg"))
+            {
+                Wather.NotifyFilter = NotifyFilters.CreationTime |
+                                      NotifyFilters.FileName |
+                                      NotifyFilters.DirectoryName;
+                Wather.Deleted += Wather_Deleted;
+                Wather.Renamed += Wather_Renamed;
+            }
+        }
+
+        private void Wather_Renamed(object sender, RenamedEventArgs e)
+        {
+            //
+        }
+
+        private void Wather_Deleted(object sender, FileSystemEventArgs e)
+        {
+            //
+        }
+
         //每个实例只运行一次
         //创建左侧按钮
         public void CreateClassifyBtn(string RootPath)
         {
             List<string> SubDirs = Directory.GetDirectories(RootPath).ToList();
             List<ClassifyBtn> ClassifyBtns = new List<ClassifyBtn>();
-            if (SubDirs.Count > 20)
+            if (SubDirs.Count > MAXSIZE)
             {
-                MessageBox.Show("图库的子文件夹不能超过15个");
+                MessageBox.Show(string.Format("图库的子文件夹不能超过{0}个",MAXSIZE));
                 SubDirs = SubDirs.Take(15).ToList();
             }
 
@@ -57,7 +83,6 @@ namespace DWGLib.Dialog
 
             this.TableLayout.RowCount = ClassifyBtns.Count;
             this.TableLayout.SuspendLayout();
-            //下面两句代码需要配套使用
             this.TableLayout.RowCount = ClassifyBtns.Count;
             this.TableLayout.Controls.AddRange(ClassifyBtns.ToArray());
             //end
@@ -68,13 +93,12 @@ namespace DWGLib.Dialog
             this.PreviousClickBtn.ToNomalStyle();
             this.CurrentClickBtn.ToActiveStyle();
         }
-        //右边的SelectedIndex改变的时候
         private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             TabControl TabControl = sender as TabControl;
-
             TabPage page = TabControl.SelectedTab;
-            if(PreviousPage != null)
+
+            if (PreviousPage != null)
                 ClearTabPageChild(this.PreviousPage);
             if (page == null) return;
             string path = page.Tag as string;
@@ -119,6 +143,7 @@ namespace DWGLib.Dialog
         private void ClearTabPageChild(TabPage Page)
         {
             Page.Controls.Clear();
+            #region
             /*
             System.Windows.Forms.Control.ControlCollection Collect = Page.Controls[0].Controls;
 
@@ -136,6 +161,7 @@ namespace DWGLib.Dialog
                 }
                 Page.ResumeLayout();
             }*/
+            #endregion
         }
         /// <summary>
         /// create DWG thumnails from an folder with dwg file and dwg file thumanil below it
@@ -204,6 +230,14 @@ namespace DWGLib.Dialog
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void LibaryDialog_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.DwgThumanilCollect.Clear();
+            this.TabControl.Dispose();
+            this.TabControl.Dispose();
+            this.CurrentTab = null;
         }
         //修改border 的默认值
     }

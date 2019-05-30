@@ -127,7 +127,7 @@
             this.MinimumSize = new System.Drawing.Size(543, 270);
             this.Name = "ThumnailProcessDlg";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "缩略图处理";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Dialog_Closing);
             this.ResumeLayout(false);

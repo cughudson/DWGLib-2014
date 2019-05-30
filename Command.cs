@@ -81,7 +81,7 @@ namespace DWGLib.Command
             }
             else
             {
-                AcadApp.ShowAlertDialog("路径：" + _Path + " 不存在，" + "请先设置正确的图库加载路径");
+                AcadApp.ShowAlertDialog(string.Format("路径:{0}不存在,请先设置正确的图库加载路径",_Path));
             }
 
         }
@@ -107,7 +107,7 @@ namespace DWGLib.Command
             }
             else
             {
-                AcadApp.ShowAlertDialog("路径：" + _Path + " 不存在，" + "请先设置正确的图库加载路径");
+                AcadApp.ShowAlertDialog(string.Format("路径:{0}不存在,请先设置正确的图库加载路径", _Path));
             }
 
         }

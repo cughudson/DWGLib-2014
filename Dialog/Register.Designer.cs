@@ -108,7 +108,7 @@
             this.MaximumSize = new System.Drawing.Size(400, 200);
             this.MinimumSize = new System.Drawing.Size(400, 200);
             this.Name = "Register";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "注册";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

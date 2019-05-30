@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LibaryDialog));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.TableLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -132,7 +131,7 @@
             // 
             this.OpenFolder.IsLink = true;
             this.OpenFolder.Name = "OpenFolder";
-            this.OpenFolder.Size = new System.Drawing.Size(72, 17);
+            this.OpenFolder.Size = new System.Drawing.Size(68, 17);
             this.OpenFolder.Text = "打开文件夹";
             this.OpenFolder.Click += new System.EventHandler(this.OpenCurrentFolder);
             // 
@@ -142,11 +141,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 441);
             this.Controls.Add(this.splitContainer1);
-          //  this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LibaryDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "中建深装";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LibaryDialog_FormClosed);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.LibaryDialog_KeyPress);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.LibaryDialog_KeyUp);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -164,11 +163,15 @@
         }
 
         #endregion
-
+#if !ACAD2008
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.TableLayoutPanel TableLayout;
         public System.Windows.Forms.TabControl TabControl;
+#endif
+#if ACAD_2008
+        private System.Windows.Forms.Splitter splitter1;
+#endif
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel OpenFolder;
