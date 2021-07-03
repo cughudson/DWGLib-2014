@@ -41,6 +41,7 @@ namespace DWGLib.Dialog
         public string AssemblyDescription
         {
             get
+            get
             {
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
                 if (attributes.Length == 0)
